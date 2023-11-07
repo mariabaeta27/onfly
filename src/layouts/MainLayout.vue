@@ -32,7 +32,7 @@
       </q-list>
     </q-drawer> -->
 
-    <q-page-container class="custom-page-container">
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -109,7 +109,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.custom-page-container {
+.q-page-container {
   background-color: #f2f2f2;
+  height: 100%;
 }
 </style>
