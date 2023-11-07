@@ -17,7 +17,5 @@ export default defineComponent({
 
 <style scoped>
 .q-page {
-  border: 1px solid black;
-  height: 100%;
 }
 </style>
