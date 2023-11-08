@@ -1,18 +1,32 @@
 <template>
   <div class="amenities-list">
-    <div v-for="amenity in amenities" :key="amenity.key">
-      <q-icon v-if="amenity" :name="getAmenityIcon(amenity.key)" />
+    <div class="amenity" v-for="amenity in amenities" :key="amenity?.key">
+      <q-icon v-if="amenity" :name="getAmenityIcon(amenity?.key)" />
+      <p v-if="isDrawer">{{ amenity?.label }}</p>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { computed } from 'vue';
+
+import { useStore } from 'src/stores/data';
+const data = useStore();
+
 export default {
   props: {
     amenities: Array,
   },
+
+  setup() {
+    const isDrawer = computed(() => data.drawerOpen);
+    return {
+      isDrawer,
+    };
+  },
+
   methods: {
-    getAmenityIcon(key) {
+    getAmenityIcon(key: string) {
       const iconMapping = {
         WI_FI: 'wifi',
         RESTAURANT: 'restaurant',
@@ -49,5 +63,8 @@ export default {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+}
+.amenity {
+  display: flex;
 }
 </style>

@@ -30,16 +30,22 @@
         R$ <span>{{ hotel?.price }},00</span>/noite
       </p>
       Impostos inclusos
-      <q-btn class="primary-button">Selecionar</q-btn>
+      <q-btn class="primary-button" @click="toggleDrawer(hotel?.id)"
+        >Selecionar</q-btn
+      >
     </q-card-actions>
   </q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import CarouselComponent from './CarouselComponent.vue';
 import StarComponent from './StarComponent.vue';
 import IconsComponent from './IconsComponent.vue';
+
+import { useStore } from 'src/stores/data';
+
+const data = useStore();
 
 export default defineComponent({
   name: 'HotelComponent',
@@ -48,21 +54,27 @@ export default defineComponent({
   },
   components: { CarouselComponent, StarComponent, IconsComponent },
   setup() {
+    const amount = ref(5);
+    const drawerOpen = computed(() => data.drawerOpen);
     return {
-      amount: ref(5),
+      amount,
+      drawerOpen,
     };
   },
   methods: {
-    calculateMediaEvaluation(stars: number) {
+    calculateMediaEvaluation(stars: number | string) {
       if (stars) {
         const minRating = 5;
         const maxRating = 9.9;
-        const media = minRating + (stars / 5) * (maxRating - minRating);
-        console.log(media);
+        const media = minRating + (+stars / 5) * (maxRating - minRating);
         return media.toFixed(1);
       } else {
         return 3.1;
       }
+    },
+    toggleDrawer(id: number) {
+      data.openDrawer(id);
+      this.drawerOpen = data.drawerOpen;
     },
   },
 });
