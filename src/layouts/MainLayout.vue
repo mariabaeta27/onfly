@@ -46,7 +46,7 @@
     <div v-if="drawerOpen" @click="closeDrawer" class="drawer-background"></div>
 
     <q-page-container :class="{ blurred: drawerOpen }" class="main-content">
-      <button @click="toggledrawer">Abrir</button>
+      <q-btn class="primary-button" @click="toggledrawer">Abrir</q-btn>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -80,9 +80,14 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../css/quasar.variables.scss';
+.primary-button {
+  background-color: $primary;
+  color: #fff;
+}
 .q-page-container {
-  background-color: #f2f2f2;
+  background-color: $gray-page;
   height: 100%;
 }
 .main-content {
