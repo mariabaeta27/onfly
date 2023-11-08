@@ -1,7 +1,10 @@
 <template>
   <q-card class="card">
     <q-card-section class="card-section">
-      <CarouselComponent :images="hotel?.images" />
+      <CarouselComponent
+        :images="hotel?.images"
+        :maxImages="hotel?.images.length"
+      />
       <div>
         <h6>{{ hotel?.name }}</h6>
         <p>{{ hotel?.address.city }}, {{ hotel?.address.fullAddress }}</p>

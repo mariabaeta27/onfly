@@ -19,7 +19,10 @@
         {{ getHotelId?.address.fullAddress }} - {{ getHotelId?.address.city }} -
         {{ getHotelId?.address.state }}
       </p>
-      <CarouselComponent :images="getHotelId?.images" />
+      <CarouselComponent
+        :images="getHotelId?.images"
+        :maxImages="getHotelId?.images.length"
+      />
 
       <h4>Facilidades do hotel</h4>
       <p>_______________________________________________</p>
