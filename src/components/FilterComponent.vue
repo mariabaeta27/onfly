@@ -41,21 +41,19 @@
       </div>
     </q-card>
 
-    <div class="complement">
+    <div class="complement q-py-md">
       <p>
         Início > Hotéis >
         <span> Hospedagem em {{ city }}</span>
       </p>
-
-      <q-select v-model="modelOrder" :options="optionsOrders" stack-label>
+      <q-select v-model="modelOrder" :options="optionsOrders" stack-label dense>
         <template v-slot:selected>
           Organizar por
           <q-chip
             v-if="modelOrder"
             dense
-            square
+            color="transparent"
             text-color="primary"
-            class="q-my-none q-ml-xs q-mr-none"
           >
             {{ modelOrder.label }}
           </q-chip>
@@ -176,5 +174,20 @@ export default defineComponent({
 .button {
   display: flex;
   justify-content: end;
+}
+
+.complement {
+  display: flex;
+  justify-content: space-between;
+}
+
+.complement p {
+  color: $primary;
+  font-weight: 600;
+}
+
+.complement p > span {
+  color: $accent;
+  font-weight: 600;
 }
 </style>
