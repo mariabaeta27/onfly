@@ -41,7 +41,6 @@ export const useStore = defineStore('data', {
     },
 
     filteredHotels() {
-      console.log('AQUI no filter', this.placeId);
       const dataFilter = this.hotels.filter(
         ({ placeId }) => this.placeId === placeId
       )[0].hotels;

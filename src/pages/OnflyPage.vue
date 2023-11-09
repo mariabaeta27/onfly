@@ -1,8 +1,20 @@
 <template>
   <q-page class="q-ma-lg q-mr-lg q-ml-lg custom">
     <FilterComponent />
-    <div v-for="hotel in hotels" :key="hotel.id">
-      <HotelComponent :hotel="hotel" />
+
+    <div v-if="hotels.length !== 0">
+      <q-infinite-scroll
+        @load="onLoad"
+        :initial-index="10"
+        :stop="hotels.length === dataHotel.length"
+      >
+        <div v-for="hotel in hotels" :key="hotel.id">
+          <HotelComponent :hotel="hotel" />
+        </div>
+      </q-infinite-scroll>
+    </div>
+    <div v-else>
+      <p>Nenhum resultado encontrado</p>
     </div>
   </q-page>
 </template>
@@ -18,14 +30,29 @@ const data = useStore();
 export default defineComponent({
   components: { HotelComponent, FilterComponent },
   setup() {
-    const hotels = computed(() => data.getHotels);
+    const dataHotel = computed(() => data.getHotels);
+
+    const hotels = computed(() => data.getHotels.slice(0, 10));
 
     onMounted(() => {
       data.filteredHotels();
     });
 
+    const onLoad = (_index: number, done: any) => {
+      if (hotels.value.length < dataHotel.value.length) {
+        const startIndex = hotels.value.length;
+        const lastIndex = startIndex + 10;
+        setTimeout(() => {
+          hotels.value.push(...data.getHotels.slice(startIndex, lastIndex));
+          done();
+        }, 1000);
+      }
+    };
+
     return {
       hotels,
+      onLoad,
+      dataHotel,
     };
   },
 });
