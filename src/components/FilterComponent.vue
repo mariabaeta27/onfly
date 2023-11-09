@@ -9,7 +9,7 @@
         <q-select
           dense
           outlined
-          v-model="search"
+          v-model="modelSearch"
           :options="options"
           emit-value
           minLength="3"
@@ -26,7 +26,7 @@
         </q-select>
 
         <div>
-          <q-btn :disable="!search" type="submit" color="primary">{{
+          <q-btn :disable="!modelSearch" type="submit" color="primary">{{
             textButton
           }}</q-btn>
         </div>
@@ -39,18 +39,29 @@
         <span> Hospedagem em {{ city }}</span>
       </p>
 
-      <p>
-        Organizar por
-        <span>(Input do tipo select) Recomendados</span>
-      </p>
+      <q-select v-model="modelOrder" :options="optionsOrders" stack-label>
+        <template v-slot:selected>
+          Organizar por
+          <q-chip
+            v-if="modelOrder"
+            dense
+            square
+            text-color="primary"
+            class="q-my-none q-ml-xs q-mr-none"
+          >
+            {{ modelOrder.label }}
+          </q-chip>
+        </template>
+      </q-select>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Ref, computed, defineComponent, ref } from 'vue';
+import { orders, Places } from './models';
 import { useStore } from 'src/stores/data';
-import { Places } from './models';
+
 const data = useStore();
 
 const places = computed(() => data.getPlaces);
@@ -65,9 +76,11 @@ export default defineComponent({
   name: 'FilterComponent',
 
   setup() {
-    const search = ref(null);
+    const modelSearch = ref(null);
     const options = ref(placesOptions);
     const reResearch = ref(false);
+    const optionsOrders = orders;
+    const modelOrder = ref(orders[0]);
     const city: Ref<string> = ref('Belo Horizonte');
 
     const textButton = computed(() =>
@@ -93,8 +106,10 @@ export default defineComponent({
       reResearch.value = true;
 
       const placeId = placesOptions.find(
-        (place) => place.value === search.value
+        (place) => place.value === modelSearch.value
       )?.category;
+
+      data.setPlaceId(Number(placeId));
 
       const filterCity = places.value.find(
         (place) => place.placeId === placeId
@@ -102,18 +117,26 @@ export default defineComponent({
 
       city.value = filterCity;
 
-      placeId && data.filteredHotels(placeId);
+      data.filteredHotels();
     };
 
     return {
-      search,
+      modelSearch,
       onSubmit,
       options,
       filterFn,
       textButton,
       reResearch,
       city,
+      optionsOrders,
+      modelOrder,
     };
+  },
+
+  watch: {
+    modelOrder() {
+      data.setOrder(this.modelOrder);
+    },
   },
 });
 </script>

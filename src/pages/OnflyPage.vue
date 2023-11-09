@@ -21,7 +21,7 @@ export default defineComponent({
     const hotels = computed(() => data.getHotels);
 
     onMounted(() => {
-      data.filteredHotels(1);
+      data.filteredHotels();
     });
 
     return {

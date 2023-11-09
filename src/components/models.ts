@@ -31,3 +31,19 @@ export interface Places {
   };
   placeId: number;
 }
+
+export interface Order {
+  label: string;
+  value: string;
+}
+
+export const orders = [
+  {
+    label: 'Recomendados',
+    value: 'recommended',
+  },
+  {
+    label: 'Melhor Avaliados',
+    value: 'best_rated',
+  },
+];

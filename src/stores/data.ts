@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import hotels from '../../data/hotel.json';
 import places from '../../data/place.json';
-import { Places } from '../components/models';
+import { Places, orders, Order } from '../components/models';
 
 function implementPlaces(data: Places[]) {
   return data;
@@ -15,6 +15,8 @@ export const useStore = defineStore('data', {
     loading: true,
     drawerOpen: false,
     hotel: [],
+    order: orders[0],
+    placeId: 1,
   }),
 
   getters: {
@@ -38,11 +40,36 @@ export const useStore = defineStore('data', {
       this.loading = false;
     },
 
-    filteredHotels(id: number) {
-      const dataFilter = this.hotels.filter(({ placeId }) => id === placeId)[0]
-        .hotels;
+    filteredHotels() {
+      console.log('AQUI no filter', this.placeId);
+      const dataFilter = this.hotels.filter(
+        ({ placeId }) => this.placeId === placeId
+      )[0].hotels;
 
+      this.orderHotels(dataFilter);
       this.filterHotels = dataFilter;
+    },
+
+    orderHotels(data) {
+      if (this.order.value === 'best_rated') {
+        data.sort((hotelA, hotelB) => {
+          return Number(hotelB.stars) - Number(hotelA.stars);
+        });
+        return;
+      }
+      data.sort((hotelA, hotelB) => {
+        return Number(hotelA.price) - Number(hotelB.price);
+      });
+      return;
+    },
+
+    setOrder(value: Order) {
+      this.order = value;
+      this.filteredHotels();
+    },
+
+    setPlaceId(value: number) {
+      this.placeId = value;
     },
 
     getHotel(id: number) {
