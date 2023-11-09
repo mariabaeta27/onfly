@@ -1,36 +1,44 @@
 <template>
   <div class="custom-filter">
-    <q-card class="card">
-      <h6>Reservar hotel</h6>
-      <q-separator />
-      <p>Destino <span class="destiny-span">*</span></p>
+    <q-card>
+      <div class="text-h5 q-px-md q-py-sm title">Reservar hotel</div>
+      <q-separator size="1px" color="dark" />
 
-      <q-form @submit="onSubmit">
-        <q-select
-          dense
-          outlined
-          v-model="modelSearch"
-          :options="options"
-          emit-value
-          minLength="3"
-          clearable
-          hide-dropdown-icon
-          use-input
-          @filter="filterFn"
-        >
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section> Resultado não encontrado </q-item-section>
-            </q-item>
-          </template>
-        </q-select>
+      <div class="q-pa-md">
+        <p class="label">Destino<span class="destiny-span">*</span></p>
+        <q-form @submit="onSubmit">
+          <q-select
+            dense
+            outlined
+            v-model="modelSearch"
+            :options="options"
+            emit-value
+            minLength="3"
+            clearable
+            hide-dropdown-icon
+            use-input
+            @filter="filterFn"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section> Resultado não encontrado </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
 
-        <div>
-          <q-btn :disable="!modelSearch" type="submit" color="primary">{{
-            textButton
-          }}</q-btn>
-        </div>
-      </q-form>
+          <div class="button">
+            <q-btn
+              :disable="!modelSearch"
+              type="submit"
+              color="primary"
+              rounded
+              class="q-mt-sm"
+            >
+              {{ textButton }}
+            </q-btn>
+          </div>
+        </q-form>
+      </div>
     </q-card>
 
     <div class="complement">
@@ -61,6 +69,7 @@
 import { Ref, computed, defineComponent, ref } from 'vue';
 import { orders, Places } from './models';
 import { useStore } from 'src/stores/data';
+import { QSelect } from 'quasar';
 
 const data = useStore();
 
@@ -81,13 +90,19 @@ export default defineComponent({
     const reResearch = ref(false);
     const optionsOrders = orders;
     const modelOrder = ref(orders[0]);
-    const city: Ref<string> = ref('Belo Horizonte');
+    const city: Ref<string | undefined> = ref('Belo Horizonte');
 
     const textButton = computed(() =>
-      reResearch.value ? 'Alterar Busca' : 'Buscar'
+      reResearch.value ? 'Alterar busca' : 'Buscar'
     );
 
-    const filterFn = (val: string, update: any) => {
+    const filterFn = (
+      val: string,
+      update: (
+        callbackFn: () => void,
+        afterFn?: ((ref: QSelect) => void) | undefined
+      ) => void
+    ) => {
       if (val === '') {
         update(() => {
           options.value = placesOptions;
@@ -141,14 +156,25 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.destiny-span {
+<style scoped lang="scss">
+@import '../css/quasar.variables.scss';
+
+.title {
+  font-weight: 500;
+}
+
+.label {
+  font-weight: bold;
+  color: $accent;
+  margin: 0;
+}
+
+.label span {
   color: red;
 }
-.q-form {
-  border: 1px solid red;
-}
-.q-form div {
-  margin: 10px;
+
+.button {
+  display: flex;
+  justify-content: end;
 }
 </style>
