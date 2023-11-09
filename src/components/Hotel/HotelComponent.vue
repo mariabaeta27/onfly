@@ -1,5 +1,5 @@
 <template>
-  <q-card class="card">
+  <q-card class="card q-mt-lg">
     <q-card-section class="card-section">
       <CarouselComponent
         :images="hotel?.images"
@@ -23,6 +23,7 @@
       </div>
     </q-card-section>
 
+    <q-separator vertical size="1px" color="gray" class="custom-separator" />
     <q-card-actions class="card-actions">
       <p>A partir de:</p>
       <p>
@@ -86,6 +87,10 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '../../css/quasar.variables.scss';
 
+.custom-separator {
+  height: 300px;
+}
+
 .infos {
   display: flex;
 }
@@ -96,8 +101,9 @@ export default defineComponent({
 }
 .card {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  margin-top: 15px;
+  grid-template-columns: 4fr 0.25fr 1fr;
+  height: 300px;
+  padding: 0px;
 }
 .primary-button {
   background-color: $primary;
@@ -105,7 +111,6 @@ export default defineComponent({
   border-radius: 30px;
 }
 .card-section {
-  border: 1px solid red;
   display: grid;
   grid-template-columns: 2fr 1fr;
 }

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-ma-lg q-mr-lg q-ml-lg custom">
+  <q-page class="custom-page">
     <FilterComponent />
 
     <div v-if="hotels.length !== 0">
@@ -59,6 +59,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.q-page {
+.custom-page {
+  margin: 50px 350px;
 }
 </style>
