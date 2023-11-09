@@ -10,7 +10,7 @@
 <script lang="ts">
 import FilterComponent from 'components/FilterComponent.vue';
 import HotelComponent from 'components/Hotel/HotelComponent.vue';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, onMounted, computed } from 'vue';
 import { useStore } from '../stores/data';
 
 const data = useStore();
@@ -18,12 +18,10 @@ const data = useStore();
 export default defineComponent({
   components: { HotelComponent, FilterComponent },
   setup() {
-    const hotels = ref([]);
+    const hotels = computed(() => data.getHotels);
 
     onMounted(() => {
-      data.filteredHotels();
-
-      hotels.value = data.getHotels;
+      data.filteredHotels(1);
     });
 
     return {

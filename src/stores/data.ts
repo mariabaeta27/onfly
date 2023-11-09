@@ -1,19 +1,27 @@
 import { defineStore } from 'pinia';
 import hotels from '../../data/hotel.json';
-import place from '../../data/place.json';
+import places from '../../data/place.json';
+import { Places } from '../components/models';
+
+function implementPlaces(data: Places[]) {
+  return data;
+}
 
 export const useStore = defineStore('data', {
   state: () => ({
     hotels,
     filterHotels: [],
-    place,
-    placeId: 1,
+    places: implementPlaces(places),
     loading: true,
     drawerOpen: false,
     hotel: [],
   }),
 
   getters: {
+    getPlaces(state) {
+      return state.places;
+    },
+
     getHotels(state) {
       return state.filterHotels;
     },
@@ -21,7 +29,6 @@ export const useStore = defineStore('data', {
       return state.drawerOpen;
     },
     getHotelId(state) {
-      console.log('Maria 3', state.hotel[0]);
       return state.hotel[0];
     },
   },
@@ -31,10 +38,9 @@ export const useStore = defineStore('data', {
       this.loading = false;
     },
 
-    filteredHotels() {
-      const dataFilter = this.hotels.filter(
-        ({ placeId }) => this.placeId === placeId
-      )[0].hotels;
+    filteredHotels(id: number) {
+      const dataFilter = this.hotels.filter(({ placeId }) => id === placeId)[0]
+        .hotels;
 
       this.filterHotels = dataFilter;
     },

@@ -22,3 +22,12 @@ export interface Hotels {
 
   price: number;
 }
+
+export interface Places {
+  name: string;
+  state: {
+    name: string;
+    shortname: string;
+  };
+  placeId: number;
+}
