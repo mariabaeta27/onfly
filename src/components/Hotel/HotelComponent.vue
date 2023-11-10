@@ -156,4 +156,15 @@ p {
   flex-direction: column;
   align-items: start;
 }
+
+@media (max-width: 1024px) {
+  .card {
+    width: auto;
+  }
+
+  .primary-button {
+    width: auto;
+    margin-top: 1rem;
+  }
+}
 </style>

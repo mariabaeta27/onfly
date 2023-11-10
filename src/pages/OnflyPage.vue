@@ -68,12 +68,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.card-example {
-  width: 288px;
-  height: 290px;
-}
-
 .custom-page {
   margin: 50px 150px;
+}
+
+@media (max-width: 769px) {
+  .custom-page {
+    margin: 50px 30px;
+  }
 }
 </style>
