@@ -44,10 +44,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '../css/quasar.variables.scss';
-.q-page-container {
-  background-color: $gray-page;
-  height: 100%;
-}
 .main-content {
   position: relative;
   transition: filter 0.3s ease;

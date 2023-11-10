@@ -1,11 +1,13 @@
 <template>
   <div class="custom-filter">
     <q-card>
-      <div class="text-h5 q-px-md q-py-sm title">Reservar hotel</div>
+      <div class="text-h5 q-px-md q-py-sm text-weight-bold">Reservar hotel</div>
       <q-separator size="1px" color="dark" />
 
       <div class="q-pa-md">
-        <p class="label">Destino<span class="destiny-span">*</span></p>
+        <p class="text-accent text-weight-bolder">
+          Destino<span class="destiny-span text-red">*</span>
+        </p>
         <q-form @submit="onSubmit">
           <q-select
             dense
@@ -42,9 +44,9 @@
     </q-card>
 
     <div class="complement q-py-md">
-      <p>
+      <p class="text-weight-bold text-primary">
         Início > Hotéis >
-        <span> Hospedagem em {{ city }}</span>
+        <span class="text-accent"> Hospedagem em {{ city }}</span>
       </p>
       <q-select v-model="modelOrder" :options="optionsOrders" stack-label dense>
         <template v-slot:selected>
@@ -157,20 +159,6 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '../css/quasar.variables.scss';
 
-.title {
-  font-weight: 500;
-}
-
-.label {
-  font-weight: bold;
-  color: $accent;
-  margin: 0;
-}
-
-.label span {
-  color: red;
-}
-
 .button {
   display: flex;
   justify-content: end;
@@ -179,15 +167,5 @@ export default defineComponent({
 .complement {
   display: flex;
   justify-content: space-between;
-}
-
-.complement p {
-  color: $primary;
-  font-weight: 600;
-}
-
-.complement p > span {
-  color: $accent;
-  font-weight: 600;
 }
 </style>

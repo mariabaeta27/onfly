@@ -1,43 +1,69 @@
 <template>
-  <q-card class="card q-mt-lg">
-    <q-card-section class="card-section">
-      <CarouselComponent
-        :images="hotel?.images"
-        :maxImages="hotel?.images.length"
-      />
-      <div>
-        <h6>{{ hotel?.name }}</h6>
-        <p>{{ hotel?.address.city }}, {{ hotel?.address.fullAddress }}</p>
-        <div class="infos">
-          <p>{{ calculateMediaEvaluation(hotel?.stars) }}</p>
-          <div class="stars-icon">
-            <StarComponent :stars="hotel?.stars" />
-          </div>
-          <p>|</p>
-          <IconsComponent
-            v-if="hotel?.amenities"
-            :amenities="hotel?.amenities"
-          />
-        </div>
-        <q-btn v-if="hotel?.hasRefundableRoom">Reembolsável </q-btn>
-      </div>
-    </q-card-section>
+  <q-card class="card q-mt-lg" flat bordered>
+    <q-card-section horizontal>
+      <q-card-section class="custom-card-section">
+        <CarouselComponent
+          :images="hotel?.images"
+          :maxImages="hotel?.images.length"
+        />
+        <div class="q-ma-lg text-weight-bold text-accent">
+          <span class="text-h6 text-black text-weight-bolder">{{
+            hotel?.name
+          }}</span>
+          <p class="text-accent">
+            {{ hotel?.address.city }}, {{ hotel?.address.fullAddress }}
+          </p>
 
-    <q-separator vertical size="1px" color="gray" class="custom-separator" />
-    <q-card-actions class="card-actions">
-      <p>A partir de:</p>
-      <p>
-        R$ <span>{{ hotel?.price }},00</span>
-      </p>
-      <br />
-      <p>
-        R$ <span>{{ hotel?.price }},00</span>/noite
-      </p>
-      Impostos inclusos
-      <q-btn class="primary-button" @click="toggleDrawer(hotel?.id)"
-        >Selecionar</q-btn
+          <div class="descriptions-amenities">
+            <p>
+              {{ calculateMediaEvaluation(hotel?.stars) }}
+            </p>
+
+            <div class="stars-icon">
+              <StarComponent :stars="hotel?.stars" />
+            </div>
+            <p class="q-pr-sm">|</p>
+
+            <IconsComponent
+              v-if="hotel?.amenities"
+              :amenities="hotel?.amenities"
+            />
+          </div>
+          <q-chip
+            square
+            color="secondary"
+            text-color="white"
+            v-if="hotel?.hasRefundableRoom"
+            >Reembolsável
+          </q-chip>
+        </div>
+      </q-card-section>
+
+      <q-separator vertical size="1px" color="gray" class="custom-separator" />
+
+      <q-card-actions
+        class="custom-q-card-actions q-mx-md text-secondary q-pa-xm"
       >
-    </q-card-actions>
+        <span class="text-caption">A partir de:</span>
+        <p>
+          R$
+          <span class="text-h4 text-weight-bold">{{ hotel?.price }},00</span>
+        </p>
+
+        <div>
+          <p>
+            R$ <span>{{ hotel?.price }},00</span>/noite
+          </p>
+          <p>Impostos inclusos</p>
+        </div>
+
+        <q-btn
+          class="primary-button q-mt-xl custom-q-btn"
+          @click="toggleDrawer(hotel?.id)"
+          >Selecionar</q-btn
+        >
+      </q-card-actions>
+    </q-card-section>
   </q-card>
 </template>
 
@@ -87,35 +113,47 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '../../css/quasar.variables.scss';
 
-.custom-separator {
-  height: 300px;
+p {
+  margin: 0;
 }
 
-.infos {
+.custom-q-btn {
+  width: 150px;
+}
+
+.custom-separator {
+  height: 250px;
+}
+
+.descriptions-amenities {
   display: flex;
+  align-items: center;
 }
 
 .stars-icon {
   display: flex;
   flex-direction: row;
+  margin: 0 10px;
+}
+.amenities {
+  display: flex;
 }
 .card {
-  display: grid;
-  grid-template-columns: 4fr 0.25fr 1fr;
-  height: 300px;
-  padding: 0px;
+  height: 250px;
 }
 .primary-button {
   background-color: $primary;
   color: #fff;
   border-radius: 30px;
 }
-.card-section {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+.custom-card-section {
+  display: flex;
+  width: 80%;
+  padding: 0;
 }
-.card-actions {
+.custom-q-card-actions {
   display: flex;
   flex-direction: column;
+  align-items: start;
 }
 </style>
