@@ -60,6 +60,6 @@ export default defineComponent({
 
 <style scoped>
 .custom-page {
-  margin: 50px 350px;
+  margin: 50px 150px;
 }
 </style>

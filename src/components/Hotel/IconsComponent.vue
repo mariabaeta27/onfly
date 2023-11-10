@@ -19,6 +19,8 @@ export default {
   },
 
   setup() {
+    const showAmenitis = [];
+    console.log(this);
     const isDrawer = computed(() => data.drawerOpen);
     return {
       isDrawer,

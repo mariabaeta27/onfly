@@ -2,9 +2,10 @@
   <q-carousel
     animated
     v-model="slide"
-    height="250px"
+    height="400px"
     class="rounded-borders custom-q-carousel"
     ref="carousel"
+    style="margin-left: 20px"
   >
     <q-carousel-slide
       v-for="(image, index) in images"
@@ -12,6 +13,13 @@
       :name="index"
       :img-src="image"
     >
+      <q-chip
+        size="18px"
+        class="bg-black text-white absolute-bottom-right custom-q-chip"
+        style="margin-right: 400px"
+      >
+        {{ slide + 1 }} / {{ maxImages }}
+      </q-chip>
     </q-carousel-slide>
 
     <template v-slot:control>
@@ -37,7 +45,7 @@
           text-color="black"
           icon="arrow_right"
           @click="$refs.carousel.next()"
-          style="margin-right: 40px"
+          style="margin-right: 60px"
         />
       </q-carousel-control>
     </template>
@@ -46,7 +54,6 @@
 
 <script>
 import { ref } from 'vue';
-
 export default {
   props: {
     images: [],
@@ -62,6 +69,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.custom-q-chip {
+  opacity: 0.8;
+}
 .custom-carousel-control {
   display: flex;
   justify-content: space-between;
@@ -73,7 +83,7 @@ export default {
 }
 
 .custom-q-carousel {
-  width: 400px;
+  width: 820px;
 }
 .slide {
   background-color: white;

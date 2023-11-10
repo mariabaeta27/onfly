@@ -4,39 +4,47 @@
     v-model="drawerOpen"
     bordered
     overlay
-    :width="500"
+    :width="900"
     side="right"
+    class="text-accent q-pa-md"
   >
     <q-scroll-area class="fit">
       <div class="assessments">
-        <p>{{ calculateMediaEvaluation(getHotelId?.stars) }}</p>
+        <p>{{ calculateMediaEvaluation(hotel?.stars) }}</p>
         <div class="stars-icon">
-          <StarComponent :stars="getHotelId?.stars" />
+          <StarComponent :stars="hotel?.stars" />
         </div>
       </div>
-      <h1>{{ getHotelId?.name }}</h1>
+      <p class="text-h4 text-black text-weight-bold">{{ hotel?.name }}</p>
       <p>
-        {{ getHotelId?.address.fullAddress }} - {{ getHotelId?.address.city }} -
-        {{ getHotelId?.address.state }}
+        {{ hotel?.address.fullAddress }} - {{ hotel?.address.city }} -
+        {{ hotel?.address.state }}
       </p>
       <CarouselComponent
-        :images="getHotelId?.images"
-        :maxImages="getHotelId?.images.length"
+        :images="hotel?.images"
+        :maxImages="hotel?.images.length"
       />
 
-      <h4>Facilidades do hotel</h4>
-      <p>_______________________________________________</p>
-      <IconsComponent
-        v-if="getHotelId?.amenities"
-        :amenities="getHotelId?.amenities"
-      />
+      <div v-if="hotel?.amenities">
+        <p class="text-h5 q-my-md">Facilidades do hotel</p>
 
-      <button>Mostrar todas as facilidades</button>
-      <p>_______________________________________________</p>
+        <q-separator size="1px" color="gray" class="q-mb-md" />
+        <IconsComponent v-if="hotel?.amenities" :amenities="hotel?.amenities" />
 
-      <h4>Conheça um pouco mais</h4>
+        <q-btn
+          class="text-primary text-center"
+          outline
+          rounded
+          style="margin-left: 300px"
+          >Mostrar todas as facilidades</q-btn
+        >
+        <q-separator size="1px" color="gray" class="q-my-md" />
+      </div>
+      <div>
+        <p class="text-h5 q-my-md">Conheça um pouco mais</p>
 
-      <p>{{ getHotelId.description }}</p>
+        <p class="text-justify">{{ hotel.description }}</p>
+      </div>
     </q-scroll-area>
   </q-drawer>
 </template>
@@ -46,18 +54,18 @@ import { storeToRefs } from 'pinia';
 import { useStore } from 'src/stores/data';
 import { computed, defineComponent } from 'vue';
 import StarComponent from './StarComponent.vue';
-import CarouselComponent from './CarouselComponent.vue';
+import CarouselComponent from './CarouselDrawerComponent.vue';
 import IconsComponent from './IconsComponent.vue';
 
 const data = useStore();
 export default defineComponent({
   name: 'DrawerComponent',
   setup() {
-    const { getHotelId } = storeToRefs(data);
+    const { getHotelId: hotel } = storeToRefs(data);
     const drawerOpen = computed(() => data.drawerOpen);
     return {
       drawerOpen,
-      getHotelId,
+      hotel,
     };
   },
   methods: {
