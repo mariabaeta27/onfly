@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import hotels from '../../data/hotel.json';
 import places from '../../data/place.json';
-import { Places, orders, Order, Hotels, Hotel } from '../components/models';
+import { Places, Order, Hotels, Hotel } from '../components/models';
+import { orders } from '../components/utils';
 
 function implementPlaces(data: Places[]) {
   return data;
