@@ -41,7 +41,7 @@
             v-model="modelFilterName"
             color="primary"
             keep-color
-            label="Filtar por nome"
+            label="Filtrar por nome do hotel"
           />
           <div class="button">
             <q-btn type="submit" color="primary" rounded class="q-mt-sm">
