@@ -1,6 +1,6 @@
 <template>
   <div v-for="n in amount" :key="n">
-    <q-icon name="star" :class="{ star: n <= stars }" />
+    <q-icon name="star" :class="{ star: n <= Number(stars) }" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import { ref } from 'vue';
 
 export default {
   props: {
-    stars: Number,
+    stars: String,
   },
 
   setup() {

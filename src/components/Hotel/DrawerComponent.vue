@@ -71,11 +71,11 @@ export default defineComponent({
     };
   },
   methods: {
-    calculateMediaEvaluation(stars: number | string) {
+    calculateMediaEvaluation(stars: string) {
       if (stars) {
         const minRating = 5;
         const maxRating = 9.9;
-        const media = minRating + (+stars / 5) * (maxRating - minRating);
+        const media = minRating + (Number(stars) / 5) * (maxRating - minRating);
         return media.toFixed(1);
       } else {
         return 3.1;
