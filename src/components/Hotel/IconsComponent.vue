@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Amenity } from '../models';
 
 import { useStore } from 'src/stores/data';
@@ -27,16 +27,9 @@ export default {
     const fullVisibilityAmenities = computed(
       () => data.fullVisibilityAmenities
     );
-    const showAmenities: Amenity[] = [];
-    return {
-      isDrawer,
-      showAmenities,
-      fullVisibilityAmenities,
-    };
-  },
+    const showAmenities = ref<Amenity[]>([]);
 
-  methods: {
-    getAmenityIcon(key: string) {
+    const getAmenityIcon = (key: string) => {
       const iconMapping: Record<string, string> = {
         WI_FI: 'wifi',
         RESTAURANT: 'restaurant',
@@ -62,24 +55,42 @@ export default {
         ACEPTED_CAR_CREDIT: 'credit_card',
       };
       return iconMapping[key];
-    },
-    add() {
-      const startIndex = this.showAmenities.length;
-      const lastIndex =
-        this.amenities && startIndex + this.amenities?.length - 3;
-      this.showAmenities.push(...this.amenities?.slice(startIndex, lastIndex));
-      console.log(this.showAmenities);
-    },
+    };
+    const addAmenities = () => {
+      const startIndex = showAmenities.value.length;
+      const lastIndex = startIndex + (showAmenities.value.length - 3);
+      if (lastIndex > startIndex) {
+        setTimeout(() => {
+          showAmenities.value.push(
+            ...showAmenities.value?.slice(startIndex, lastIndex)
+          );
+        }, 500);
+      }
+    };
+
+    return {
+      isDrawer,
+      showAmenities,
+      fullVisibilityAmenities,
+      getAmenityIcon,
+      addAmenities,
+    };
   },
 
+  methods: {},
+
   created() {
-    this.showAmenities = this.isDrawer
-      ? this.amenities?.slice(0, 3)
-      : this.amenities;
+    if (this.isDrawer) {
+      this.showAmenities = this.amenities.slice(0, 3);
+    } else {
+      this.showAmenities = this.amenities;
+    }
   },
+
   watch: {
     fullVisibilityAmenities() {
-      this.add();
+      this.addAmenities();
+      console.log(this.showAmenities);
     },
   },
 };
