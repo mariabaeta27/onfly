@@ -12,7 +12,7 @@ export const useStore = defineStore('data', {
     hotels,
     filterHotels: [],
     places: implementPlaces(places),
-    loading: true,
+    loading: false,
     drawerOpen: false,
     hotel: [],
     order: orders[0],
@@ -41,12 +41,14 @@ export const useStore = defineStore('data', {
     },
 
     filteredHotels() {
+      this.loading = true;
       const dataFilter = this.hotels.filter(
         ({ placeId }) => this.placeId === placeId
       )[0].hotels;
 
       this.orderHotels(dataFilter);
       this.filterHotels = dataFilter;
+      this.loading = false;
     },
 
     orderHotels(data) {
