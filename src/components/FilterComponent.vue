@@ -15,7 +15,6 @@
             v-model="modelSearch"
             :options="options"
             emit-value
-            minLength="3"
             clearable
             hide-dropdown-icon
             use-input
@@ -112,7 +111,7 @@ export default defineComponent({
       update(() => {
         const needle = val.toLocaleLowerCase();
         options.value = placesOptions.filter((place) =>
-          place.value.toLocaleLowerCase().includes(needle)
+          place.label.toLocaleLowerCase().includes(needle)
         );
       });
     };

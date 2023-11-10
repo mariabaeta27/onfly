@@ -2,7 +2,7 @@
   <div class="amenities-list">
     <div class="amenity" v-for="amenity in showAmenities" :key="amenity?.key">
       <q-icon v-if="amenity" :name="getAmenityIcon(amenity?.key)" />
-      <p v-if="isDrawer">{{ amenity?.label }}</p>
+      <p v-if="isDrawer" class="q-ml-sm">{{ amenity?.label }}</p>
     </div>
   </div>
 </template>
@@ -56,32 +56,26 @@ export default {
       };
       return iconMapping[key];
     };
-    const addAmenities = () => {
-      const startIndex = showAmenities.value.length;
-      const lastIndex = startIndex + (showAmenities.value.length - 3);
-      if (lastIndex > startIndex) {
-        setTimeout(() => {
-          showAmenities.value.push(
-            ...showAmenities.value?.slice(startIndex, lastIndex)
-          );
-        }, 500);
-      }
-    };
 
     return {
       isDrawer,
       showAmenities,
       fullVisibilityAmenities,
       getAmenityIcon,
-      addAmenities,
     };
   },
 
-  methods: {},
+  methods: {
+    addAmenities() {
+      const startIndex = this.showAmenities.length;
+      const lastIndex = startIndex + (this.amenities.length - 5);
+      this.showAmenities.push(...this.amenities?.slice(startIndex, lastIndex));
+    },
+  },
 
   created() {
     if (this.isDrawer) {
-      this.showAmenities = this.amenities.slice(0, 3);
+      this.showAmenities = this.amenities.slice(0, 5);
     } else {
       this.showAmenities = this.amenities;
     }
@@ -90,7 +84,6 @@ export default {
   watch: {
     fullVisibilityAmenities() {
       this.addAmenities();
-      console.log(this.showAmenities);
     },
   },
 };
