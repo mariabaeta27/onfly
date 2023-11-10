@@ -76,14 +76,3 @@ export interface Hotels {
   placeId: number;
   hotels: Hotel[] | [];
 }
-
-export const orders = [
-  {
-    label: 'Recomendados',
-    value: 'recommended',
-  },
-  {
-    label: 'Melhor Avaliados',
-    value: 'best_rated',
-  },
-];

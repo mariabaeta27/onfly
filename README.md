@@ -34,7 +34,7 @@
 
 ### Bônus
 
-- [ ] Filtro por Nome será considerado um diferencial no seu teste!
+- [x] Filtro por Nome será considerado um diferencial no seu teste!
 - [x] Optar por usar TypeScript.
 - [ ] Aplicar Testes Unitários em Componentes.
 

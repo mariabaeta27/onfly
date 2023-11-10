@@ -19,6 +19,7 @@
             hide-dropdown-icon
             use-input
             @filter="filterFn"
+            :disable="modelFilterName"
           >
             <template v-slot:no-option>
               <q-item>
@@ -27,14 +28,23 @@
             </template>
           </q-select>
 
+          <q-input
+            dense
+            outlined
+            v-model="modelSearchName"
+            class="q-mt-md"
+            label="Nome do hotel"
+            v-if="modelFilterName"
+          ></q-input>
+
+          <q-toggle
+            v-model="modelFilterName"
+            color="primary"
+            keep-color
+            label="Filtar por nome"
+          />
           <div class="button">
-            <q-btn
-              :disable="!modelSearch"
-              type="submit"
-              color="primary"
-              rounded
-              class="q-mt-sm"
-            >
+            <q-btn type="submit" color="primary" rounded class="q-mt-sm">
               {{ textButton }}
             </q-btn>
           </div>
@@ -66,7 +76,8 @@
 
 <script lang="ts">
 import { Ref, computed, defineComponent, ref } from 'vue';
-import { orders, Places } from './models';
+import { Places } from './models';
+import { orders } from './utils';
 import { useStore } from 'src/stores/data';
 import { QSelect } from 'quasar';
 
@@ -89,6 +100,8 @@ export default defineComponent({
     const reResearch = ref(false);
     const optionsOrders = orders;
     const modelOrder = ref(orders[0]);
+    const modelFilterName = ref(false);
+    const modelSearchName = ref('');
     const city: Ref<string | undefined> = ref('Belo Horizonte');
 
     const textButton = computed(() =>
@@ -96,20 +109,20 @@ export default defineComponent({
     );
 
     const filterFn = (
-      val: string,
+      value: string,
       update: (
         callbackFn: () => void,
         afterFn?: ((ref: QSelect) => void) | undefined
       ) => void
     ) => {
-      if (val === '') {
+      if (value === '') {
         update(() => {
           options.value = placesOptions;
         });
         return;
       }
       update(() => {
-        const needle = val.toLocaleLowerCase();
+        const needle = value.toLocaleLowerCase();
         options.value = placesOptions.filter((place) =>
           place.label.toLocaleLowerCase().includes(needle)
         );
@@ -118,20 +131,22 @@ export default defineComponent({
 
     const onSubmit = () => {
       reResearch.value = true;
+      if (modelFilterName.value) {
+        data.filteredHotelsName(modelSearchName.value);
+      } else {
+        const placeId = placesOptions.find(
+          (place) => place.value === modelSearch.value
+        )?.category;
 
-      const placeId = placesOptions.find(
-        (place) => place.value === modelSearch.value
-      )?.category;
+        data.setPlaceId(Number(placeId));
 
-      data.setPlaceId(Number(placeId));
+        const filterCity = places.value.find(
+          (place) => place.placeId === placeId
+        )?.name;
 
-      const filterCity = places.value.find(
-        (place) => place.placeId === placeId
-      )?.name;
-
-      city.value = filterCity;
-
-      data.filteredHotels();
+        city.value = filterCity;
+        data.filteredHotels();
+      }
     };
 
     return {
@@ -144,6 +159,8 @@ export default defineComponent({
       city,
       optionsOrders,
       modelOrder,
+      modelFilterName,
+      modelSearchName,
     };
   },
 
