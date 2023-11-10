@@ -9,13 +9,17 @@
 
 <script lang="ts">
 import { computed } from 'vue';
+import { Amenity } from '../models';
 
 import { useStore } from 'src/stores/data';
 const data = useStore();
 
 export default {
   props: {
-    amenities: Array,
+    amenities: {
+      type: Array as () => Amenity[],
+      required: true,
+    },
   },
 
   setup() {
@@ -23,7 +27,7 @@ export default {
     const fullVisibilityAmenities = computed(
       () => data.fullVisibilityAmenities
     );
-    const showAmenities = [];
+    const showAmenities: Amenity[] = [];
     return {
       isDrawer,
       showAmenities,
@@ -33,7 +37,7 @@ export default {
 
   methods: {
     getAmenityIcon(key: string) {
-      const iconMapping = {
+      const iconMapping: Record<string, string> = {
         WI_FI: 'wifi',
         RESTAURANT: 'restaurant',
         ROOM_SERVICE: 'room_service',
@@ -60,11 +64,10 @@ export default {
       return iconMapping[key];
     },
     add() {
-      console.log('AQUI add');
       const startIndex = this.showAmenities.length;
-      const lastIndex = startIndex + this.amenities?.length - 3;
-
-      this.showAmenities.push(...this.amenities.slice(startIndex, lastIndex));
+      const lastIndex =
+        this.amenities && startIndex + this.amenities?.length - 3;
+      this.showAmenities.push(...this.amenities?.slice(startIndex, lastIndex));
       console.log(this.showAmenities);
     },
   },
@@ -76,7 +79,6 @@ export default {
   },
   watch: {
     fullVisibilityAmenities() {
-      console.log('AQUI mudou');
       this.add();
     },
   },

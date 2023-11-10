@@ -46,7 +46,7 @@ export default defineComponent({
       data.filteredHotels();
     });
 
-    const onLoad = (_index: number, done: any) => {
+    const onLoad = (_index: number, done: () => void) => {
       if (hotels.value.length < dataHotel.value.length) {
         const startIndex = hotels.value.length;
         const lastIndex = startIndex + 10;

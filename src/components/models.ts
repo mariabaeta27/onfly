@@ -37,7 +37,7 @@ export interface Order {
   value: string;
 }
 
-interface Amenity {
+export interface Amenity {
   key: string;
   label: string;
 }
