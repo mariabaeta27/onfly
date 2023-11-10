@@ -76,7 +76,8 @@
 
 <script lang="ts">
 import { Ref, computed, defineComponent, ref } from 'vue';
-import { orders, Places } from './models';
+import { Places } from './models';
+import { orders } from './utils';
 import { useStore } from 'src/stores/data';
 import { QSelect } from 'quasar';
 
