@@ -37,6 +37,46 @@ export interface Order {
   value: string;
 }
 
+interface Amenity {
+  key: string;
+  label: string;
+}
+
+interface Address {
+  street: string;
+  number: string;
+  district: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string | null;
+  fullAddress: string;
+}
+
+export interface Hotel {
+  id: number;
+  favorite: boolean;
+  name: string;
+  description: string;
+  stars: string;
+  thumb: string;
+  amenities: Amenity[];
+  hasBreakFast: boolean;
+  hasRefundableRoom: boolean;
+  hasAgreement: boolean;
+  nonRefundable: string | null;
+  address: Address;
+  images: string[];
+  deals: null;
+  roomsQuantity: number;
+  price: number;
+}
+
+export interface Hotels {
+  placeId: number;
+  hotels: Hotel[] | [];
+}
+
 export const orders = [
   {
     label: 'Recomendados',

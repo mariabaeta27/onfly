@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import hotels from '../../data/hotel.json';
 import places from '../../data/place.json';
-import { Places, orders, Order } from '../components/models';
+import { Places, orders, Order, Hotels, Hotel } from '../components/models';
 
 function implementPlaces(data: Places[]) {
   return data;
@@ -9,14 +9,15 @@ function implementPlaces(data: Places[]) {
 
 export const useStore = defineStore('data', {
   state: () => ({
-    hotels,
-    filterHotels: [],
+    hotels: hotels as Hotels[],
+    filterHotels: [] as Hotel[],
     places: implementPlaces(places),
     loading: false,
     drawerOpen: false,
-    hotel: [],
+    hotel: [] as Hotel[],
     order: orders[0],
     placeId: 1,
+    fullVisibilityAmenities: false,
   }),
 
   getters: {
@@ -51,7 +52,7 @@ export const useStore = defineStore('data', {
       this.loading = false;
     },
 
-    orderHotels(data) {
+    orderHotels(data: Hotel[]) {
       if (this.order.value === 'best_rated') {
         data.sort((hotelA, hotelB) => {
           return Number(hotelB.stars) - Number(hotelA.stars);
@@ -84,6 +85,10 @@ export const useStore = defineStore('data', {
 
     closeDrawer() {
       this.drawerOpen = false;
+    },
+
+    setFullVisibilityAmenities() {
+      this.fullVisibilityAmenities = !this.fullVisibilityAmenities;
     },
   },
 });

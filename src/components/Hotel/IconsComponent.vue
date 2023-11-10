@@ -1,6 +1,6 @@
 <template>
   <div class="amenities-list">
-    <div class="amenity" v-for="amenity in amenities" :key="amenity?.key">
+    <div class="amenity" v-for="amenity in showAmenities" :key="amenity?.key">
       <q-icon v-if="amenity" :name="getAmenityIcon(amenity?.key)" />
       <p v-if="isDrawer">{{ amenity?.label }}</p>
     </div>
@@ -19,11 +19,15 @@ export default {
   },
 
   setup() {
-    const showAmenitis = [];
-    console.log(this);
     const isDrawer = computed(() => data.drawerOpen);
+    const fullVisibilityAmenities = computed(
+      () => data.fullVisibilityAmenities
+    );
+    const showAmenities = [];
     return {
       isDrawer,
+      showAmenities,
+      fullVisibilityAmenities,
     };
   },
 
@@ -54,6 +58,26 @@ export default {
         ACEPTED_CAR_CREDIT: 'credit_card',
       };
       return iconMapping[key];
+    },
+    add() {
+      console.log('AQUI add');
+      const startIndex = this.showAmenities.length;
+      const lastIndex = startIndex + this.amenities?.length - 3;
+
+      this.showAmenities.push(...this.amenities.slice(startIndex, lastIndex));
+      console.log(this.showAmenities);
+    },
+  },
+
+  created() {
+    this.showAmenities = this.isDrawer
+      ? this.amenities?.slice(0, 3)
+      : this.amenities;
+  },
+  watch: {
+    fullVisibilityAmenities() {
+      console.log('AQUI mudou');
+      this.add();
     },
   },
 };

@@ -32,12 +32,14 @@
         <IconsComponent v-if="hotel?.amenities" :amenities="hotel?.amenities" />
 
         <q-btn
-          class="text-primary text-center"
+          @click="handleVisible"
+          class="text-primary text-center q-mt-sm"
           outline
           rounded
           style="margin-left: 300px"
-          >Mostrar todas as facilidades</q-btn
         >
+          Mostrar todas as facilidades
+        </q-btn>
         <q-separator size="1px" color="gray" class="q-my-md" />
       </div>
       <div>
@@ -78,6 +80,9 @@ export default defineComponent({
       } else {
         return 3.1;
       }
+    },
+    handleVisible() {
+      data.setFullVisibilityAmenities();
     },
   },
   components: { StarComponent, CarouselComponent, IconsComponent },
