@@ -168,6 +168,9 @@ export default defineComponent({
     modelOrder() {
       data.setOrder(this.modelOrder);
     },
+    modelFilterName() {
+      this.modelSearchName = '';
+    },
   },
 });
 </script>
